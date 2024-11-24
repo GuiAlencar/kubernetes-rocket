@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: app-ts
+data:
+  # usando env
+  # app-name: rocketseat-app 
+  # usando envFrom
+  APP: rocketseat-app 

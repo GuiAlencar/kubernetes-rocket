@@ -6,6 +6,13 @@ metadata:
 
 spec:
   replicas: 2
+  strategy: 
+    # recreate causa indisponibilidade
+    # type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 20%
+      maxUnavailable: 10% 
   selector:
     matchLabels:
       api: app-ts
@@ -16,8 +23,24 @@ spec:
     spec:
       containers:
         - name: app-ts
-          image: guilherme1212/app-ts:v2
+          image: guilherme1212/app-ts:v4
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: app-ts
+            - secretRef:
+                name: app-ts-secrets
+          # env:
+          #  - name: APP
+          #    valueFrom:
+          #      configMapKeyRef:
+          #        name: app-ts
+          #        key: app-name
+          #  - name: API_KEY
+          #    valueFrom:
+          #      secretKeyRef:
+          #        name: app-ts-secrets
+          #        key: api-key
           ports:
             - containerPort: 3000
           resources:
