@@ -1,0 +1,44 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+
+metadata:
+  name: app-ts-hpa
+spec:
+  # o que ele vai olhar
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: app-ts
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  behavior: 
+    scaleDown:
+      stabilizationWindowSeconds: 30
+      policies:
+        - type: Pods
+          value: 2
+          periodSeconds: 15
+    #     - type: Percent
+    #       value: 20
+    #       periodSeconds: 15
+    # # política menos agressiva para remover os pods, ou Max, para usar a política mais agressiva
+      # selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 5
+      policies:
+        - type: Pods
+          value: 2
+          periodSeconds: 5
