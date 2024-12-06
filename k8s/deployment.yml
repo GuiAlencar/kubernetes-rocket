@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: app-ts
-          image: guilherme1212/app-ts:v4
+          image: guilherme1212/app-ts:v5
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
@@ -43,6 +43,14 @@ spec:
           #        key: api-key
           ports:
             - containerPort: 3000
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+            periodSeconds: 10
           resources:
             requests:
               cpu: 100m
