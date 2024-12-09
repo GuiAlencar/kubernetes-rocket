@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: app-ts
-          image: guilherme1212/app-ts:v5
+          image: guilherme1212/app-ts:v8
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
@@ -44,6 +44,12 @@ spec:
           ports:
             - containerPort: 3000
           startupProbe:
+            # executar script dentro do startupProbe
+            # exec:
+            #   command:
+            #     - /bin/sh
+            #     - -c
+            #     - check.sh
             httpGet:
               path: /healthz
               port: 3000
@@ -51,6 +57,28 @@ spec:
             successThreshold: 1
             timeoutSeconds: 1
             periodSeconds: 10
+            initialDelaySeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 3000
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+            periodSeconds: 15
+            initialDelaySeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            failureThreshold: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+            periodSeconds: 10
+            initialDelaySeconds: 5
+
           resources:
             requests:
               cpu: 100m
