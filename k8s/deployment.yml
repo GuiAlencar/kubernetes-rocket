@@ -43,6 +43,8 @@ spec:
           #        key: api-key
           ports:
             - containerPort: 3000
+
+          # garanti que sua aplicação que está rodando em container subiu
           startupProbe:
             # executar script dentro do startupProbe
             # exec:
@@ -59,6 +61,7 @@ spec:
             periodSeconds: 10
             initialDelaySeconds: 10
 
+          # Valida se a aplicação está pronta para receber tráfego
           readinessProbe:
             httpGet:
               path: /readyz
@@ -69,6 +72,7 @@ spec:
             periodSeconds: 15
             initialDelaySeconds: 5
 
+          # sondagem de vivacidade, olha a aplicação de tempos em tempos para ver se ela está viva
           livenessProbe:
             httpGet:
               path: /healthz
