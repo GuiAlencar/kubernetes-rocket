@@ -86,4 +86,13 @@ spec:
             limits:
               cpu: 200m
               memory: 192Mi
+
+          volumeMounts:
+            - name: app-ts-data
+              # montagem dentro do container
+              mountPath: /usr/src/app/uploads
+      volumes:
+        - name: app-ts-data
+          persistentVolumeClaim:
+            claimName: first-pvc
             

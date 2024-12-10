@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+
+metadata:
+  name: first-pvc
+
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard
+  # faz o match com o pv
+  accessModes: 
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      name: first-pv
