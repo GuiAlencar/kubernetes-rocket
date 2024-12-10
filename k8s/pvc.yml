@@ -11,7 +11,7 @@ spec:
   storageClassName: standard
   # faz o match com o pv
   accessModes: 
-    - ReadWriteOnce
+    - ReadWriteMany
   selector:
     matchLabels:
       name: first-pv
