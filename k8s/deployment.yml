@@ -11,7 +11,9 @@ spec:
     # type: Recreate
     type: RollingUpdate
     rollingUpdate:
+      # número máximo de pods adicionais que podem ser criados durante um deploy
       maxSurge: 20%
+      # número máximo de pods que podem ficar indisponível durante o deploy
       maxUnavailable: 10% 
   selector:
     matchLabels:
